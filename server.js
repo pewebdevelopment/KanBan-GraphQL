@@ -1,7 +1,5 @@
 const express = require("express");
 
-const moongoose = require("moongoose");
-
 const connectMongo = require("./utils/connection");
 
 const { ApolloServer, gql } = require("apollo-server");
