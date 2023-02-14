@@ -1,8 +1,6 @@
 const { book, booksArr, sportsArr } = require("./data");
 
-const moongoose = require("moongoose");
-
-const Task = require("../Models/task");
+const Tasks = require("../Models/task");
 
 const Resolvers = {
   Query: {
@@ -20,8 +18,17 @@ const Resolvers = {
       let id = args.id;
 
       try {
-        const task = await Task.findById(id);
+        const task = await Tasks.findById(id);
         return task;
+      } catch (err) {
+        return err;
+      }
+    },
+
+    tasks: async (parent, args, contextValue, info) => {
+      try {
+        const tasks = await Tasks.find();
+        return tasks;
       } catch (err) {
         return err;
       }
@@ -34,6 +41,27 @@ const Resolvers = {
       const newBook = { title: title, author: author, pages };
       booksArr.push(newBook);
       return newBook;
+    },
+
+    createTask: async (root, args, context) => {
+      const { name, iconURL, tags, status, createdAt, updatedAt, dueAt } = args;
+
+      try {
+        const newTask = new Tasks({
+          name,
+          iconURL,
+          tags,
+          status,
+          createdAt,
+          updatedAt,
+          dueAt,
+        });
+
+        await newTask.save();
+        return newTask;
+      } catch (err) {
+        return err;
+      }
     },
   },
 };

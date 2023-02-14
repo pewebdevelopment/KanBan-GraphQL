@@ -1,3 +1,5 @@
+const { gql } = require("apollo-server");
+
 const TypeDefinitions = gql`
   type Book {
     title: String
@@ -13,23 +15,32 @@ const TypeDefinitions = gql`
     iconURL: String
     tags: [String]
     status: String
-    createdAt: Date
-    updatedAt: Date
-    dueAt: Date
+    createdAt: String
+    updatedAt: String
+    dueAt: String
   }
 
   ###################################
 
   type Query {
-    book(id: Int): Book
+    book(id: String): Book
     books: [Book]
 
-    task(id: Int): Task
+    task(id: String): Task
     tasks: [Task]
   }
 
   type Mutation {
     addBook(title: String, author: String, pages: Int): Book
+    createTask(
+      name: String
+      iconURL: String
+      tags: [String]
+      status: String
+      createdAt: String
+      updatedAt: String
+      dueAt: String
+    ): Task
   }
 `;
 
