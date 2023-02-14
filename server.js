@@ -15,10 +15,9 @@ const TypeDefinitions = gql`
     books: [Book]
   }
 
-  # // title:String, author:String , pages:Int
-  #   type Mutations {
-
-  #   }
+  type Mutation {
+    addBook(title: String, author: String, pages: Int): Book
+  }
   #   type Subscriptions {
 
   #   }
@@ -56,11 +55,14 @@ const Resolvers = {
     },
   },
 
-  //   Mutations: {
-  //     book: () => {
-  //       return book;
-  //     },
-  //   },
+  Mutation: {
+    addBook: (root, args, context) => {
+      const { title, author, pages } = args;
+      const newBook = { title: title, author: author, pages };
+      booksArr.push(newBook);
+      return newBook;
+    },
+  },
 
   //   Subscriptions: {
   //     book: () => {
