@@ -11,10 +11,11 @@ const TypeDefinitions = gql`
     pages: Int
   }
   type Query {
-    book: Book
+    book(id: Int): Book
     books: [Book]
   }
 
+  # // title:String, author:String , pages:Int
   #   type Mutations {
 
   #   }
@@ -23,7 +24,7 @@ const TypeDefinitions = gql`
   #   }
 `;
 
-const book = { title: null, author: "Zen", pages: 100 };
+const book = { title: "My Awesome Book", author: "Zen", pages: 10023 };
 
 const booksArr = [
   { title: "Book 1", author: "Zen", pages: 100 },
@@ -32,13 +33,24 @@ const booksArr = [
   { title: "Book 4", author: "Zen", pages: 200 },
 ];
 
+const sportsArr = [
+  { title: "Cricket", fans: 100000 },
+  { title: "Football", fans: 166 },
+  { title: "Hockey", fans: 1077 },
+  { title: "Chess", fans: 1000 },
+];
+
 const app = express();
 
 const Resolvers = {
   Query: {
-    book: () => {
-      return book;
+    book: (parent, args, contextValue, info) => {
+      console.log(args);
+
+      return booksArr[args.id - 1];
+      // return book;
     },
+
     books: () => {
       return booksArr;
     },
